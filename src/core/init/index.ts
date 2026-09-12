@@ -14,6 +14,7 @@ import settingState from '@/store/setting/state'
 import { checkUpdate } from '@/core/version'
 import { bootLog } from '@/utils/bootLog'
 import { cheatTip } from '@/utils/tools'
+import { startTvRemoteListener } from '@/utils/nativeModules/tvRemote'
 
 let isFirstPush = true
 const handlePushedHomeScreen = async() => {
@@ -62,6 +63,10 @@ export default async() => {
 
   void initSync(setting)
   bootLog('Sync inited.')
+
+  // Initialize TV remote listener
+  startTvRemoteListener()
+  bootLog('TV Remote Listener started.')
 
   // syncSetting()
 

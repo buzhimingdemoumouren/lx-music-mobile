@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { memo, useCallback } from 'react'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
 import { useI18n } from '@/lang'
 import { useNavActiveId, useStatusbarHeight } from '@/store/common/hook'
@@ -12,6 +12,7 @@ import type { InitState } from '@/store/common/state'
 import { exitApp, setNavActiveId } from '@/core/common'
 import Text from '@/components/common/Text'
 import { useSettingValue } from '@/store/setting/hook'
+import { TvFocusable } from '@/components/common/TvFocusable'
 
 const styles = createStyle({
   container: {
@@ -81,19 +82,31 @@ const MenuItem = ({ id, icon, onPress }: {
   const activeId = useNavActiveId()
   const theme = useTheme()
 
-  return activeId == id
-    ? <View style={styles.menuItem}>
-        <View style={styles.iconContent}>
-          <Icon name={icon} size={20} color={theme['c-primary-font-active']} />
-        </View>
-        <Text style={styles.text} color={theme['c-primary-font']}>{t(id)}</Text>
+  const handlePress = useCallback(() => {
+    onPress(id)
+  }, [id, onPress])
+
+  return (
+    <TvFocusable
+      id={`drawer-menu-${id}`}
+      onPress={handlePress}
+      style={styles.menuItem}
+    >
+      <View style={styles.iconContent}>
+        <Icon
+          name={icon}
+          size={20}
+          color={activeId == id ? theme['c-primary-font-active'] : theme['c-font-label']}
+        />
       </View>
-    : <TouchableOpacity style={styles.menuItem} onPress={() => { onPress(id) }}>
-        <View style={styles.iconContent}>
-          <Icon name={icon} size={20} color={theme['c-font-label']} />
-        </View>
-        <Text style={styles.text}>{t(id)}</Text>
-      </TouchableOpacity>
+      <Text
+        style={styles.text}
+        color={activeId == id ? theme['c-primary-font'] : theme['c-font']}
+      >
+        {t(id)}
+      </Text>
+    </TvFocusable>
+  )
 }
 
 export default memo(() => {
@@ -102,7 +115,7 @@ export default memo(() => {
   const showBackBtn = useSettingValue('common.showBackBtn')
   const showExitBtn = useSettingValue('common.showExitBtn')
 
-  const handlePress = (id: IdType) => {
+  const handlePress = useCallback((id: IdType) => {
     switch (id) {
       case 'nav_exit':
         void confirmDialog({
@@ -120,7 +133,7 @@ export default memo(() => {
 
     global.app_event.changeMenuVisible(false)
     setNavActiveId(id)
-  }
+  }, [])
 
 
   return (
@@ -141,4 +154,3 @@ export default memo(() => {
     </View>
   )
 })
-

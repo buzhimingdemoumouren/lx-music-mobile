@@ -6,6 +6,7 @@ import type { StateEventTypes } from '@/event/stateEvent'
 import type { I18n } from '@/lang/i18n'
 import type { Buffer as _Buffer } from 'buffer'
 import type { SettingScreenIds } from '@/screens/Home/Views/Setting'
+import type { TvFocusManager } from '@/utils/tvFocusManager'
 
 // interface Process {
 //   env: {
@@ -68,6 +69,7 @@ declare global {
   var list_event: ListEventTypes
   var dislike_event: DislikeEventTypes
   var state_event: StateEventTypes
+  var tvFocusManager: TvFocusManager
 
   var Buffer: typeof _Buffer
 

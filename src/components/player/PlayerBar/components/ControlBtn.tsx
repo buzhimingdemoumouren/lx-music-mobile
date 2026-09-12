@@ -1,10 +1,12 @@
-import { TouchableOpacity } from 'react-native'
+import { useCallback } from 'react'
+import { TouchableOpacity, View } from 'react-native'
 import { Icon } from '@/components/common/Icon'
 import { useIsPlay } from '@/store/player/hook'
 import { useTheme } from '@/store/theme/hook'
 import { playNext, playPrev, togglePlay } from '@/core/player/player'
 import { createStyle } from '@/utils/tools'
 import { useHorizontalMode } from '@/utils/hooks'
+import { TvFocusable } from '@/components/common/TvFocusable'
 
 const BTN_SIZE = 24
 const handlePlayPrev = () => {
@@ -18,9 +20,9 @@ const PlayPrevBtn = () => {
   const theme = useTheme()
 
   return (
-    <TouchableOpacity style={styles.cotrolBtn} activeOpacity={0.5} onPress={handlePlayPrev}>
+    <TvFocusable id="player-prev" onPress={handlePlayPrev} style={styles.cotrolBtn}>
       <Icon name='prevMusic' color={theme['c-button-font']} size={BTN_SIZE} />
-    </TouchableOpacity>
+    </TvFocusable>
   )
 }
 
@@ -28,9 +30,9 @@ const PlayNextBtn = () => {
   const theme = useTheme()
 
   return (
-    <TouchableOpacity style={styles.cotrolBtn} activeOpacity={0.5} onPress={handlePlayNext}>
+    <TvFocusable id="player-next" onPress={handlePlayNext} style={styles.cotrolBtn}>
       <Icon name='nextMusic' color={theme['c-button-font']} size={BTN_SIZE} />
-    </TouchableOpacity>
+    </TvFocusable>
   )
 }
 
@@ -39,9 +41,9 @@ const TogglePlayBtn = () => {
   const theme = useTheme()
 
   return (
-    <TouchableOpacity style={styles.cotrolBtn} activeOpacity={0.5} onPress={togglePlay}>
+    <TvFocusable id="player-toggle" onPress={togglePlay} style={styles.cotrolBtn}>
       <Icon name={isPlay ? 'pause' : 'play'} color={theme['c-button-font']} size={BTN_SIZE} />
-    </TouchableOpacity>
+    </TvFocusable>
   )
 }
 

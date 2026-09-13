@@ -71,4 +71,4 @@ jobs:
         if: success()
         with:
           name: xxmusic-debug
-          path: android/app/build/outputs/apk/debug/*.apk
+          path: android/app/build/outputs/apk/debug/**/*.apk

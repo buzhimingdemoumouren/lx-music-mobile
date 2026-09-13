@@ -33,6 +33,9 @@ jobs:
           ls $ANDROID_HOME/cmdline-tools/latest/bin/
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-36" "build-tools;35.0.0" "ndk;26.1.10909125"
+          NDK_PATH=$($ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --list_installed 2>/dev/null | grep "ndk;26.1.10909125" | head -1 | awk '{print $1}' | sed 's/ndk;26.1.10909125//' || echo "$ANDROID_HOME/ndk/26.1.10909125")
+          echo "ANDROID_NDK_HOME=$NDK_PATH" >> $GITHUB_ENV
+          echo "NDK_PATH=$NDK_PATH" >> $GITHUB_ENV
 
       - name: Get npm cache directory
         id: npm-cache-dir
@@ -56,7 +59,7 @@ jobs:
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace 2>&1
+          ./gradlew assembleDebug --stacktrace -Pandroid.ndkVersion=26.1.10909125 -Pandroid.ndkPath="$NDK_PATH" 2>&1
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4

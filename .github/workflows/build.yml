@@ -27,6 +27,13 @@ jobs:
           java-version: '17'
           cache: gradle
 
+      - name: Install Android NDK
+        run: |
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          ls $ANDROID_HOME/cmdline-tools/latest/bin/
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "ndk;26.1.10909125"
+
       - name: Get npm cache directory
         id: npm-cache-dir
         shell: bash

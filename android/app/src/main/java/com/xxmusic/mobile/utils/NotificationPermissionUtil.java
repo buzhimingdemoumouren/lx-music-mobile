@@ -16,10 +16,10 @@ import java.util.List;
 
 public class NotificationPermissionUtil {
 
-  /** 检查通知权限是否开�?*/
+  /** 检查通知权限是否开启 */
   public static boolean isNotificationsEnabled(Context context) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      // Android 8.0 及以�?
+      // Android 8.0 及以上
       NotificationManager manager =
         (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
       if (manager == null) return false;
@@ -49,13 +49,13 @@ public class NotificationPermissionUtil {
     }
   }
 
-  /** 安全地打开通知设置�?*/
+  /** 安全地打开通知设置页面 */
   public static boolean openNotificationPermissionActivity(Context context) {
     String packageName = context.getPackageName();
     Intent intent = new Intent();
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      // Android 8.0 及以�?
+      // Android 8.0 及以上
       intent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
       intent.putExtra("android.provider.extra.APP_PACKAGE", packageName);
     } else {
@@ -65,10 +65,10 @@ public class NotificationPermissionUtil {
       intent.putExtra("app_uid", context.getApplicationInfo().uid);
     }
 
-    // 加上 NEW_TASK 标志，确保从�?Activity Context 启动不会崩溃
+    // 加上 NEW_TASK 标志，确保从非 Activity Context 启动不会崩溃
     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-    // 检查系统是否支持该 Intent（防止某�?ROM 无响应导致卡死）
+    // 检查系统是否支持该 Intent（防止某些 ROM 无响应导致卡死）
     PackageManager pm = context.getPackageManager();
     List<ResolveInfo> infos = pm.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
     if (infos.isEmpty()) {

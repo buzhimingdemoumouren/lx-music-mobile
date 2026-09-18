@@ -23,7 +23,7 @@ public class BatteryOptimizationUtil {
       }
       return false;
     }
-    return true; // Android 6.0 以下不需�?
+    return true; // Android 6.0 以下不需要
   }
 
   /**

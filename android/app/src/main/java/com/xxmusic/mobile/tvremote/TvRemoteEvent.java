@@ -12,7 +12,7 @@ public class TvRemoteEvent {
 
   private final ReactApplicationContext reactContext;
 
-  TvRemoteEvent(ReactApplicationContext reactContext) {
+  public TvRemoteEvent(ReactApplicationContext reactContext) {
     this.reactContext = reactContext;
   }
 

@@ -290,7 +290,7 @@ public class UtilsModule extends ReactContextBaseJavaModule {
       return;
     }
 
-    // 格式化成 zh_cn、en_us �?
+    // 格式化成 zh_cn、en_us 格式
     String language = locale.getLanguage(); // zh, en
     String country = locale.getCountry();   // CN, US
     String localeStr;

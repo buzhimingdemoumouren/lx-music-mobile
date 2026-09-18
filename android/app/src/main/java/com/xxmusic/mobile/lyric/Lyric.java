@@ -81,12 +81,12 @@ public class Lyric extends LyricPlayer {
   //         if (profile == BluetoothProfile.A2DP) {
   //           List<BluetoothDevice> connectedDevices = proxy.getConnectedDevices();
   //           if (!connectedDevices.isEmpty()) {
-  //             System.out.println("已连接的 A2DP 媒体设备�?);
+  //             System.out.println("已连接的 A2DP 媒体设备");
   //             for (BluetoothDevice device : connectedDevices) {
   //               System.out.println("设备名称: " + "地址: " + device.getAddress());
   //             }
   //           } else {
-  //             System.out.println("没有连接�?A2DP 媒体设备");
+  //             System.out.println("没有连接 A2DP 媒体设备");
   //           }
   //         }
   //         bluetoothAdapter.closeProfileProxy(profile, proxy);
@@ -99,7 +99,7 @@ public class Lyric extends LyricPlayer {
   //       }
   //     }, BluetoothProfile.A2DP);
   //   } else {
-  //     System.out.println("蓝牙未开启或设备不支持蓝�?);
+  //     System.out.println("蓝牙未开启或设备不支持蓝牙");
   //   }
   // }
 

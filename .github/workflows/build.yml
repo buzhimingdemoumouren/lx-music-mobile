@@ -45,14 +45,14 @@ jobs:
         working-directory: android
         shell: bash
         run: |
-          set -eo pipefail
           chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace --no-daemon 2>&1 | tee build.log
-          echo "BUILD_EXIT=$?" >> $GITHUB_ENV
-
-      - name: Check disk space
-        if: always()
-        run: df -h
+          ./gradlew assembleDebug --stacktrace 2>&1 | tee build.log
+          EXIT_CODE=${PIPESTATUS[0]}
+          echo "### Gradle Build Result: Exit Code $EXIT_CODE" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          tail -100 build.log >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          exit $EXIT_CODE
 
       - name: List APK files
         if: always()

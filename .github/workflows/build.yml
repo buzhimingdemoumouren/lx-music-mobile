@@ -56,24 +56,15 @@ jobs:
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace --info 2>&1 | tee build.log
-        continue-on-error: true
+          ./gradlew assembleDebug --stacktrace 2>&1 | tee build.log
 
       - name: List APK Output
+        if: always()
         run: |
-          cd android
-          echo "=== All APK files (recursive) ==="
-          find . -name "*.apk" -type f 2>/dev/null | head -30
-          echo "=== app/build/outputs ==="
-          ls -la app/build/outputs/ 2>/dev/null || true
-          echo "=== app/build/outputs/apk ==="
-          ls -la app/build/outputs/apk/ 2>/dev/null || true
-          echo "=== app/build/outputs/apk/debug ==="
-          ls -la app/build/outputs/apk/debug/ 2>/dev/null || true
-          echo "=== app/build/outputs/apk/debug/* ==="
-          ls -la app/build/outputs/apk/debug/*/ 2>/dev/null || true
-          echo "=== app/build/outputs/bundle ==="
-          ls -la app/build/outputs/bundle/ 2>/dev/null || true
+          echo "=== All APK files ==="
+          find android -name "*.apk" -type f 2>/dev/null || echo "No APK found"
+          echo "=== app/build/outputs structure ==="
+          find android/app/build/outputs -type f 2>/dev/null | head -30 || echo "No outputs dir"
 
       - name: Upload Build Log
         if: always()
@@ -84,7 +75,8 @@ jobs:
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
-        if: success()
+        if: always()
         with:
           name: xxmusic-debug
-          path: android/**/*.apk
+          path: |
+            android/app/build/outputs/apk/**/*.apk

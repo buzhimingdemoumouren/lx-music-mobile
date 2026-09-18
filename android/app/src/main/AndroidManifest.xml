@@ -25,6 +25,7 @@
       android:allowBackup="false"
       android:banner="@mipmap/ic_launcher"
       android:theme="@style/AppTheme"
+      android:extractNativeLibs="false"
       tools:targetApi="n">
       <activity
         android:name=".MainActivity"

@@ -29,54 +29,40 @@ jobs:
 
       - name: Install Android NDK
         run: |
-          echo "ANDROID_HOME=$ANDROID_HOME"
-          ls $ANDROID_HOME/cmdline-tools/latest/bin/
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "ndk;26.1.10909125"
 
-      - name: Get npm cache directory
-        id: npm-cache-dir
-        shell: bash
-        run: echo "cachedir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
-
       - name: Cache node modules
-        id: cache-npm
         uses: actions/cache@v4
         with:
-          path: ${{ steps.npm-cache-dir.outputs.cachedir }}
-          key: ${{ runner.os }}-npm-cache-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-cache-
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: ${{ runner.os }}-npm-
 
       - name: Install dependencies
-        shell: bash
         run: npm ci
 
       - name: Build Debug APK
+        working-directory: android
         run: |
-          cd android
           chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace 2>&1 | tee build.log
+          ./gradlew assembleDebug --stacktrace
 
-      - name: List APK Output
+      - name: List APK files
         if: always()
         run: |
-          echo "=== All APK files ==="
+          echo "=== APK files ==="
           find android -name "*.apk" -type f 2>/dev/null || echo "No APK found"
-          echo "=== app/build/outputs structure ==="
+          echo ""
+          echo "=== Build outputs ==="
           find android/app/build/outputs -type f 2>/dev/null | head -30 || echo "No outputs dir"
-
-      - name: Upload Build Log
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-log
-          path: android/build.log
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: xxmusic-debug
+          name: xxmusic-debug-apk
           path: |
             android/app/build/outputs/apk/**/*.apk
+            android/app/build/outputs/apk/*.apk
+          if-no-files-found: warn

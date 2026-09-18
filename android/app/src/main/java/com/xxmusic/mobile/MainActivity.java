@@ -4,10 +4,11 @@ import android.util.Log;
 import android.view.KeyEvent;
 
 import com.reactnativenavigation.NavigationActivity;
-import com.reactnativenavigation.react.ReactEventEmitter;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.facebook.react.ReactNativeHost;
+import com.facebook.react.bridge.ReactApplicationContext;
 
 import com.xxmusic.mobile.tvremote.TvRemoteEvent;
 
@@ -33,8 +34,9 @@ public class MainActivity extends NavigationActivity {
     // Filter DPAD keys and media control keys
     if (isTvRemoteKey(keyCode)) {
       if (tvRemoteEvent == null) {
-        tvRemoteEvent = new TvRemoteEvent(getReactNativeHost().getReactInstanceManager()
-          .getCurrentReactContext());
+        ReactNativeHost reactNativeHost = ((MainApplication) getApplication()).getReactNativeHost();
+        ReactApplicationContext reactContext = (ReactApplicationContext) reactNativeHost.getReactInstanceManager().getCurrentReactContext();
+        tvRemoteEvent = new TvRemoteEvent(reactContext);
       }
       if (tvRemoteEvent != null) {
         tvRemoteEvent.sendKeyEvent(keyCode, action);

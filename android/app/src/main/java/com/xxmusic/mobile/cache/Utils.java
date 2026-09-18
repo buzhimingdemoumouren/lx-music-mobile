@@ -29,7 +29,7 @@ public class Utils {
   }
 
   /**
-   * 判断当前版本是否兼容目标版本的方�?
+   * 判断当前版本是否兼容目标版本的方法
    *
    * @param VersionCode
    * @return

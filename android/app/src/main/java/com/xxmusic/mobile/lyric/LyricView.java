@@ -41,7 +41,7 @@ public class LyricView extends Activity implements View.OnTouchListener {
   private float lastY;
   private float nowX;  //当前移动位置的X.Y坐标
   private float nowY;
-  private float tranX; //悬浮窗移动位置的相对�?
+  private float tranX; //悬浮窗移动位置的相对位置
   private float tranY;
   private float prevViewPercentageX = 0;
   private float prevViewPercentageY = 0;
@@ -198,7 +198,7 @@ public class LyricView extends Activity implements View.OnTouchListener {
 //        }
 //      }
 //    } else {
-//      //Android6.0以下，不用动态声明权�?
+//      //Android6.0以下，不用动态声明权限
 //      if (mFloatView!=null && mFloatView.isShow()==false) {
 //        mFloatView.show();
 //      }
@@ -296,7 +296,7 @@ public class LyricView extends Activity implements View.OnTouchListener {
   private void handleShowLyric() {
     if (windowManager == null) {
       windowManager = (WindowManager) reactContext.getSystemService(Context.WINDOW_SERVICE);
-      //设置TextView的属�?
+      //设置TextView的属性
       layoutParams = new WindowManager.LayoutParams();
 
       DisplayMetrics outMetrics = new DisplayMetrics();
@@ -327,7 +327,7 @@ public class LyricView extends Activity implements View.OnTouchListener {
     if (isLock) {
       textView.setBackgroundColor(Color.TRANSPARENT);
 
-      // 修复 Android 12 的穿透点击问�?
+      // 修复 Android 12 的穿透点击问题
       if (Build.VERSION.SDK_INT > Build.VERSION_CODES.R) {
         layoutParams.alpha = 0.8f;
       }
@@ -339,10 +339,10 @@ public class LyricView extends Activity implements View.OnTouchListener {
       }
     }
 
-    // TYPE_SYSTEM_ALERT  系统提示,它总是出现在应用程序窗口之�?
-    // TYPE_SYSTEM_OVERLAY   系统顶层窗口。显示在其他一切内容之上。此窗口不能获得输入焦点，否则影响锁�?
-    // FLAG_NOT_FOCUSABLE 悬浮窗口较小时，后面的应用图标由不可长按变为可长�?不设置这个flag的话，home页的划屏会有问题
-    // FLAG_NOT_TOUCH_MODAL不阻塞事件传递到后面的窗�?
+    // TYPE_SYSTEM_ALERT  系统提示,它总是出现在应用程序窗口之上
+    // TYPE_SYSTEM_OVERLAY   系统顶层窗口。显示在其他一切内容之上。此窗口不能获得输入焦点，否则影响锁定
+    // FLAG_NOT_FOCUSABLE 悬浮窗口较小时，后面的应用图标由不可长按变为可长按 不设置这个flag的话，home页的划屏会有问题
+    // FLAG_NOT_TOUCH_MODAL不阻塞事件传递到后面的窗口
     layoutParams.gravity = Gravity.TOP | Gravity.START;  //显示在屏幕上中部
 
     updateWH();
@@ -356,7 +356,7 @@ public class LyricView extends Activity implements View.OnTouchListener {
     textView.setWidth(layoutParams.width);
     setLayoutParamsHeight();
 
-    //显示位置与指定位置的相对位置�?
+    //显示位置与指定位置的相对位置
     layoutParams.x = (int)(maxWidth * prevViewPercentageX);
     layoutParams.y = (int)(maxHeight * prevViewPercentageY);
 
@@ -365,7 +365,7 @@ public class LyricView extends Activity implements View.OnTouchListener {
     //设置透明
     layoutParams.format = PixelFormat.TRANSPARENT;
 
-    //添加到window�?
+    //添加到window�?
     windowManager.addView(textView, layoutParams);
   }
 
@@ -437,7 +437,7 @@ public class LyricView extends Activity implements View.OnTouchListener {
         if (preY == 0){
           preY = nowY;
         }
-        // 计算XY坐标偏移�?
+        // 计算XY坐标偏移�?
         tranX = nowX - lastX;
         tranY = nowY - lastY;
 
@@ -448,10 +448,10 @@ public class LyricView extends Activity implements View.OnTouchListener {
         if (y < 0) y = 0;
         else if (y > maxY) y = maxY;
 
-        // 移动悬浮�?
+        // 移动悬浮�?
         layoutParams.x = x;
         layoutParams.y = y;
-        //更新悬浮窗位�?
+        //更新悬浮窗位�?
         windowManager.updateViewLayout(textView, layoutParams);
         //记录当前坐标作为下一次计算的上一次移动的位置坐标
         lastX = nowX;
